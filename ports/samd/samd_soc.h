@@ -39,6 +39,11 @@
 #define CPU_FREQ (48000000)
 #define USARTx SERCOM3
 
+#elif defined(MCU_SAME54)
+
+#define CPU_FREQ (48000000)
+#define USARTx SERCOM3		//TODO
+
 #endif
 
 void samd_init(void);

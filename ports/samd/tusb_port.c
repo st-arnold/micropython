@@ -121,7 +121,7 @@ void USB_Handler_wrapper(void) {
     tud_task();
 }
 
-#elif defined(MCU_SAMD51)
+#elif defined(MCU_SAMD51) || defined(MCU_SAME54)
 
 void USB_0_Handler_wrapper(void) {
     USB_0_Handler();

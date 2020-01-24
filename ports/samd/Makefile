@@ -31,6 +31,7 @@ INC += -I$(TOP)/lib/tinyusb/src
 
 CFLAGS_MCU_SAMD21 = -mtune=cortex-m0plus -mcpu=cortex-m0plus -msoft-float
 CFLAGS_MCU_SAMD51 = -mtune=cortex-m4 -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard
+CFLAGS_MCU_SAME54 = -mtune=cortex-m4 -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 CFLAGS = $(INC) -Wall -Werror -std=c99 -nostdlib -mthumb $(CFLAGS_MCU_$(MCU_SERIES)) -fsingle-precision-constant -Wdouble-promotion
 CFLAGS += -DMCU_$(MCU_SERIES) -D__$(CMSIS_MCU)__
 LDFLAGS = -nostdlib $(addprefix -T,$(LD_FILES)) -Map=$@.map --cref
@@ -71,8 +72,11 @@ SRC_C = \
 ifeq ($(MCU_SERIES),SAMD21)
 SRC_C += lib/tinyusb/src/portable/microchip/samd21/dcd_samd21.c
 SRC_S = lib/utils/gchelper_m0.s
-else
+else ifeq ($(MCU_SERIES),SAMD51)
 SRC_C += lib/tinyusb/src/portable/microchip/samd51/dcd_samd51.c
+SRC_S = lib/utils/gchelper_m3.s
+else ifeq ($(MCU_SERIES),SAME54)
+SRC_C += lib/tinyusb/src/portable/microchip/same54/dcd_same54.c
 SRC_S = lib/utils/gchelper_m3.s
 endif
 

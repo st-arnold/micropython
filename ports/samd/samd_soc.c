@@ -56,6 +56,20 @@ static void uart0_init(void) {
     uint32_t rxpo = 1;
     uint32_t txpo = 2;
 
+    #elif defined(MCU_SAME54)		//TODO
+
+    // SERCOM3, TX=PA17=PAD0, RX=PA16=PAD1, ALT-D
+    PORT->Group[0].PMUX[8].reg = 0x33;
+    PORT->Group[0].PINCFG[16].reg = 1;
+    PORT->Group[0].PINCFG[17].reg = 1;
+
+    // Use Generator 0 which is already enabled and switched to DFLL @ 48MHz
+    GCLK->PCHCTRL[SERCOM3_GCLK_ID_CORE].reg = GCLK_PCHCTRL_CHEN | GCLK_PCHCTRL_GEN_GCLK0;
+    MCLK->APBBMASK.bit.SERCOM3_ = 1;
+
+    uint32_t rxpo = 1;
+    uint32_t txpo = 2;
+
     #endif
 
     while (USARTx->USART.SYNCBUSY.bit.SWRST) { }
@@ -90,6 +104,12 @@ static void usb_init(void) {
     PM->APBBMASK.bit.USB_ = 1;
     uint8_t alt = 6; // alt G, USB
     #elif defined(MCU_SAMD51)
+    GCLK->PCHCTRL[USB_GCLK_ID].reg = GCLK_PCHCTRL_CHEN | GCLK_PCHCTRL_GEN_GCLK1;
+    while (GCLK->PCHCTRL[USB_GCLK_ID].bit.CHEN == 0) { }
+    MCLK->AHBMASK.bit.USB_ = 1;
+    MCLK->APBBMASK.bit.USB_ = 1;
+    uint8_t alt = 7; // alt H, USB
+    #elif defined(MCU_SAME54)		//TODO
     GCLK->PCHCTRL[USB_GCLK_ID].reg = GCLK_PCHCTRL_CHEN | GCLK_PCHCTRL_GEN_GCLK1;
     while (GCLK->PCHCTRL[USB_GCLK_ID].bit.CHEN == 0) { }
     MCLK->AHBMASK.bit.USB_ = 1;
@@ -137,6 +157,14 @@ void samd_init(void) {
     PORT->Group[0].DIRSET.reg = 1 << 10;
 
     #elif defined(MCU_SAMD51)
+
+    GCLK->GENCTRL[1].reg = 1 << GCLK_GENCTRL_DIV_Pos | GCLK_GENCTRL_GENEN | GCLK_GENCTRL_SRC_DFLL;
+    while (GCLK->SYNCBUSY.bit.GENCTRL1) { }
+
+    // Configure PA22 as output for LED
+    PORT->Group[0].DIRSET.reg = 1 << 22;
+
+    #elif defined(MCU_SAME54)		//TODO
 
     GCLK->GENCTRL[1].reg = 1 << GCLK_GENCTRL_DIV_Pos | GCLK_GENCTRL_GENEN | GCLK_GENCTRL_SRC_DFLL;
     while (GCLK->SYNCBUSY.bit.GENCTRL1) { }

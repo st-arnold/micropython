@@ -32,6 +32,8 @@
 #define DBL_TAP_ADDR ((volatile uint32_t *)(0x20000000 + 32 * 1024 - 4))
 #elif defined(MCU_SAMD51)
 #define DBL_TAP_ADDR ((volatile uint32_t *)(0x20000000 + 192 * 1024 - 4))
+#elif defined(MCU_SAME54)
+#define DBL_TAP_ADDR ((volatile uint32_t *)(0x20000000 + 256 * 1024 - 4))
 #endif
 #define DBL_TAP_MAGIC_LOADER 0xf01669ef
 #define DBL_TAP_MAGIC_RESET 0xf02669ef

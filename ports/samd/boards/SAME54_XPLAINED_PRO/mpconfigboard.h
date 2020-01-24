@@ -1,0 +1,7 @@
+#define MICROPY_HW_BOARD_NAME "SAME54-XPLAINED_PRO"
+#define MICROPY_HW_MCU_NAME   "SAME54P20A"
+
+#define MICROPY_FLOAT_IMPL              (MICROPY_FLOAT_IMPL_FLOAT)
+#define MICROPY_PY_BUILTINS_COMPLEX     (0)
+#define MICROPY_PY_MATH                 (0)
+#define MICROPY_PY_CMATH                (0)

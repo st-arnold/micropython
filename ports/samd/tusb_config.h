@@ -32,6 +32,8 @@
 #define CFG_TUSB_MCU                OPT_MCU_SAMD21
 #elif defined(MCU_SAMD51)
 #define CFG_TUSB_MCU                OPT_MCU_SAMD51
+#elif defined(MCU_SAME54)
+#define CFG_TUSB_MCU                OPT_MCU_SAME54
 #endif
 #define CFG_TUSB_RHPORT0_MODE       OPT_MODE_DEVICE
 #define CFG_TUSB_MEM_SECTION
